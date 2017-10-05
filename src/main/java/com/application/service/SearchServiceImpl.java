@@ -1,4 +1,4 @@
-package com.application.search.imp;
+package com.application.service;
 
 public interface SearchServiceImpl {
 	void searchDevices();
