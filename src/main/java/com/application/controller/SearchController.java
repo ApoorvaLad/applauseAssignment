@@ -18,6 +18,9 @@ public class SearchController {
 		
 	}
 	
+	public static void main(String[] args) {
+		System.out.println("here");
+	}
 	
 
 }
