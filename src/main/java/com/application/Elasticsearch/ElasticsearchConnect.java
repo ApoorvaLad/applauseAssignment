@@ -1,4 +1,4 @@
-package com.application.util;
+package com.application.Elasticsearch;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -20,6 +20,7 @@ public class ElasticsearchConnect {
 			client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"),9300));
 			LOGGER.debug("Connnected");
 		} catch (UnknownHostException e) {
+			LOGGER.error("Not connected");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
