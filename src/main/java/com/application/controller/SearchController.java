@@ -13,19 +13,15 @@ import com.application.service.SearchService;
 @Controller
 public class SearchController {
 
-public SearchService searchservice;
-	//@RequestMapping(value = "/devices", method = RequestMethod.GET)
-	public void getDevices(/*HttpServletRequest request, HttpServletResponse response*/) {
+	public SearchService searchservice;
+
+	@RequestMapping(value = "/devices", method = RequestMethod.GET)
+	public void getDevices(HttpServletRequest request, HttpServletResponse response) {
 		searchservice = new SearchService();
 		searchservice.searchDevices();
-		
+
 	}
 	
-	public static void main(String[] args) {
-		System.out.println("here");
-		SearchController controller = new SearchController();
-		controller.getDevices();
-	}
 	
 
 }

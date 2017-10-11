@@ -10,19 +10,32 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
 public class ElasticsearchConnect {
+	public static TransportClient client;
 
-	final static Logger LOGGER = Logger.getLogger(ElasticsearchConnect.class);
-	public static void main(String[] args) {
-		System.out.println("Here");
+	public static TransportClient getClient() {
+		if (client == null) {
+			ElasticsearchConnect connect = new ElasticsearchConnect();
+			connect.createConnection();
+		}
+		return client;
+	}
+
+	private void createConnection() {
+
 		Settings settings = Settings.builder().put("cluster.name", "elasticsearch").build();
-		TransportClient client = new PreBuiltTransportClient(settings);
+		client = new PreBuiltTransportClient(settings);
 		try {
-			client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"),9300));
-			LOGGER.debug("Connnected");
+
+			client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
 		} catch (UnknownHostException e) {
-			LOGGER.error("Not connected");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	final static Logger LOGGER = Logger.getLogger(ElasticsearchConnect.class);
+
+	public static void main(String[] args) {
+		getClient();
 	}
 }
