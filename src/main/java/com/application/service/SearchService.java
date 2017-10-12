@@ -1,5 +1,6 @@
 package com.application.service;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.elasticsearch.action.get.GetResponse;
@@ -13,20 +14,27 @@ import com.google.gson.Gson;
 @Service
 public class SearchService implements SearchServiceImpl {
 
-	public void searchDevices() {
+	public Devices[] getAllDevices() {
 		TransportClient client = ElasticsearchConnect.getClient();
 		GetResponse getResponse = client.prepareGet("devices", "device", "1").setOperationThreaded(false).get();
 		Map<String, Object> output = getResponse.getSource();
-	
+
 		Gson gson = new Gson();
 		Devices[] devices = gson.fromJson((String) output.get("devices"), Devices[].class);
-		System.out.println(devices);
+		return devices;
 	}
 
+	
+
+	public void searchByDevice(ArrayList<String> deviceNames) {
+		
+		
+	}
+	
 	public static void main(String[] args) {
 		SearchService searchService = new SearchService();
-		searchService.searchDevices();
-		
+		searchService.getAllDevices();
+
 	}
 
 }

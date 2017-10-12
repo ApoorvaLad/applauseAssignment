@@ -11,6 +11,6 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>spring-mvc</servlet-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>/search</url-pattern>
 	</servlet-mapping>
 </web-app>
