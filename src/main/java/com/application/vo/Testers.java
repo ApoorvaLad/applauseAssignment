@@ -1,16 +1,23 @@
 package com.application.vo;
 
 public class Testers {
-	private int testerId;
+	private String testerId;
 	private String firstName;
 	private String country;
 	private String lastLogin;
 
-	public int getTesterId() {
+	public Testers(String testerId, String firstName, String country, String lastLogin) {
+		this.testerId = testerId;
+		this.firstName = firstName;
+		this.country = country;
+		this.lastLogin = lastLogin;
+	}
+
+	public String getTesterId() {
 		return testerId;
 	}
 
-	public void setTesterId(int testerId) {
+	public void setTesterId(String testerId) {
 		this.testerId = testerId;
 	}
 
