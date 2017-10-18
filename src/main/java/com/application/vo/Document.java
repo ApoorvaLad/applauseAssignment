@@ -1,13 +1,13 @@
 package com.application.vo;
 
 public class Document {
-	private String testerId;
+	private int testerId;
 	private String country;
 	private String deviceId;
 	private String deviceName;
-	private String bugId;
+	private int bugId;
 
-	public Document(String testerId, String country, String deviceId, String deviceName, String bugId) {
+	public Document(int testerId, String country, String deviceId, String deviceName, int bugId) {
 		this.testerId = testerId;
 		this.country = country;
 		this.deviceId = deviceId;
@@ -15,11 +15,11 @@ public class Document {
 		this.bugId = bugId;
 	}
 
-	public String getTesterId() {
+	public int getTesterId() {
 		return testerId;
 	}
 
-	public void setTesterId(String testerId) {
+	public void setTesterId(int testerId) {
 		this.testerId = testerId;
 	}
 
@@ -47,11 +47,11 @@ public class Document {
 		this.deviceName = deviceName;
 	}
 
-	public String getBugId() {
+	public int getBugId() {
 		return bugId;
 	}
 
-	public void setBugId(String bugId) {
+	public void setBugId(int bugId) {
 		this.bugId = bugId;
 	}
 }

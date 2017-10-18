@@ -97,6 +97,6 @@
 
 	</dependencies>
 	<build>
-		<finalName>assignment</finalName>
+		<finalName>application</finalName>
 	</build>
 </project>

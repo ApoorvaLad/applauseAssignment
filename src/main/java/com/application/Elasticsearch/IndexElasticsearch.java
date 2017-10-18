@@ -2,13 +2,21 @@ package com.application.Elasticsearch;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
+import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequestBuilder;
+import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
+import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentType;
 
+import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import com.application.vo.Bugs;
 import com.application.vo.Document;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,15 +31,62 @@ public class IndexElasticsearch {
 	final static ArrayList<String> deviceDetails = new ArrayList<String>();
 	final static ArrayList<String> testerDetails = new ArrayList<String>();
 
-	public void indexDevices(ArrayList<Document> documents) throws JsonProcessingException {
-		ObjectMapper mapper = new ObjectMapper();
+	public void indexDevices(ArrayList<Document> documents) throws IOException {
 		TransportClient client = ElasticsearchConnect.getClient();
+		final IndicesExistsResponse res = client.admin().indices().prepareExists("details").execute().actionGet();
+		if (res.isExists()) {
+			final DeleteIndexRequestBuilder delIdx = client.admin().indices().prepareDelete("details");
+			delIdx.execute().actionGet();
+		}
+
+		final CreateIndexRequestBuilder createIndexRequestBuilder = client.admin().indices().prepareCreate("details");
+
+		// MAPPING GOES HERE
+		HashMap<String, HashMap<String, String>> mappingFields = new HashMap<String, HashMap<String, String>>();
+		HashMap<String, String> countryMap = new HashMap<String, String>();
+		HashMap<String, String> deviceNameMap = new HashMap<String, String>();
+		countryMap.put("type", "keyword");
+		deviceNameMap.put("type", "keyword");
+		mappingFields.put("deviceName", deviceNameMap);
+		mappingFields.put("country", countryMap);
+
+		final XContentBuilder mappingBuilder = jsonBuilder().startObject().startObject("detail").startObject("_all")
+				.field("enabled", "false").endObject().startObject("properties").startObject("deviceName")
+				.field("type", "keyword").endObject().startObject("country").field("type", "keyword").endObject()
+				.startObject("testerId").field("type", "integer").endObject().startObject("bugId").field("type", "integer").endObject().endObject().endObject().endObject();
+		// .startObject("properties");
+		System.out.println(mappingBuilder.string());
+		createIndexRequestBuilder.addMapping("detail", mappingBuilder);
+
+		// MAPPING DONE
+		createIndexRequestBuilder.execute().actionGet();
+
+		// Add documents
+		final IndexRequestBuilder indexRequestBuilder = client.prepareIndex("details", "detail");
+		// build json object
+		ObjectMapper mapper = new ObjectMapper();
+
 		for (Document document : documents) {
 			String documentJSON = mapper.writeValueAsString(document);
-			IndexResponse indexResponse = client.prepareIndex("details", "detail")
-					.setSource(documentJSON, XContentType.JSON).get();
-
+			indexRequestBuilder.setSource(documentJSON, XContentType.JSON).execute().actionGet();
 		}
+		// contentBuilder.field("details", value);
+
+		// indexRequestBuilder.setSource(documents);
+		// indexRequestBuilder.setSource(contentBuilder);
+		// indexRequestBuilder.execute().actionGet();
+
+		/*
+		 * ObjectMapper mapper = new ObjectMapper(); TransportClient client =
+		 * ElasticsearchConnect.getClient();
+		 * 
+		 * for (Document document : documents) { String documentJSON =
+		 * mapper.writeValueAsString(document); IndexResponse indexResponse =
+		 * client.prepareIndex("details", "detail") .setSource(documentJSON,
+		 * XContentType.JSON).get();
+		 * 
+		 * }
+		 */
 
 	}
 
@@ -75,7 +130,8 @@ public class IndexElasticsearch {
 				while (scanner.hasNextLine()) {
 					String line = scanner.nextLine();
 					String[] lineArray = line.split(",");
-					if (line.contains(bug.getTesterId())) {
+
+					if (line.contains(Integer.toString(bug.getTesterId()))) {
 
 						testerDetails.add(lineArray[3]);
 
@@ -104,7 +160,11 @@ public class IndexElasticsearch {
 				String line = scanner.nextLine();
 
 				String[] lineArray = line.split(",");
-				bugs.add(new Bugs(lineArray[0], lineArray[1], lineArray[2]));
+				lineArray[2] = lineArray[2].replaceAll("^\"|\"$", "");
+				lineArray[0] = lineArray[0].replaceAll("^\"|\"$", "");
+				System.out.println(lineArray[2]);
+				System.out.println(Integer.parseInt(lineArray[2]));
+				bugs.add(new Bugs(Integer.parseInt(lineArray[0]), lineArray[1], Integer.parseInt(lineArray[2])));
 
 			}
 			System.out.println(bugs);
@@ -124,13 +184,16 @@ public class IndexElasticsearch {
 
 		ArrayList<Document> documents = new ArrayList<Document>();
 		for (int i = 0; i < bugs.size(); i++) {
-			documents.add(new Document(bugs.get(i).getTesterId(), testerDetails.get(i), bugs.get(i).getDeviceId(),
-					deviceDetails.get(i), bugs.get(i).getBugId()));
+			documents.add(new Document(bugs.get(i).getTesterId(), testerDetails.get(i),
+					bugs.get(i).getDeviceId(), deviceDetails.get(i), bugs.get(i).getBugId()));
 		}
 
 		try {
 			elasticsearch.indexDevices(documents);
 		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

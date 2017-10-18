@@ -1,21 +1,21 @@
 package com.application.vo;
 
 public class Bugs {
-	private String bugId;
+	private int bugId;
 	private String deviceId;
-	private String testerId;
+	private int testerId;
 
-	public Bugs(String bugId, String deviceId, String testerId) {
+	public Bugs(int bugId, String deviceId, int testerId) {
 		this.bugId = bugId;
 		this.deviceId = deviceId;
 		this.testerId = testerId;
 	}
 
-	public String getBugId() {
+	public int getBugId() {
 		return bugId;
 	}
 
-	public void setBugId(String bugId) {
+	public void setBugId(int bugId) {
 		this.bugId = bugId;
 	}
 
@@ -27,11 +27,11 @@ public class Bugs {
 		this.deviceId = deviceId;
 	}
 
-	public String getTesterId() {
+	public int getTesterId() {
 		return testerId;
 	}
 
-	public void setTesterId(String testerId) {
+	public void setTesterId(int testerId) {
 		this.testerId = testerId;
 	}
 
