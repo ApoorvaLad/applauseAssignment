@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<script
+	src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+</head>
+<body>
+<script src="js/search.js"></script>
+	<div class="container">
+		<h2>Device</h2>
+		<form>
+			<label class="checkbox-inline"> <input type="checkbox" class = "names"
+				name="deviceNames[]" id="1" value="iPhone 4S">iPhone 4S
+			</label> <label class="checkbox-inline"> <input type="checkbox"  class = "names"
+				name="deviceNames[]" id = "2" value="iPhone 4">iPhone 4
+			</label> <label class="checkbox-inline"> <input type="checkbox" class = "names"
+				name="deviceNames[]" id ="3"value="iPhone 5">iPhone 5
+			</label>
+			<label class="checkbox-inline"> <input type="checkbox" class = "names"
+				name="deviceNames[]" id ="4"value="Galaxy S3">Galaxy S3
+			</label>
+			<label class="checkbox-inline"> <input type="checkbox" class = "names"
+				name="deviceNames[]" id ="5"value="Galaxy S4">Galaxy S4
+			</label>
+			<br>
+			<label class="checkbox-inline"> <input type="checkbox" class = "names"
+				name="deviceNames[]" id ="6" value="Nexus 4">Nexus 4
+			</label>
+			<label class="checkbox-inline"> <input type="checkbox" class = "names"
+				name="deviceNames[]" id ="7" value="Droid Razor">Droid Razor
+			</label>
+			<label class="checkbox-inline"> <input type="checkbox" class = "names"
+				name="deviceNames[]" id ="8"value="Droid DNA">Droid DNA
+			</label> 
+			<label class="checkbox-inline"> <input type="checkbox" class = "names"
+				name="deviceNames[]" id ="9"value="HTC One">HTC One
+			</label>
+			<label class="checkbox-inline"> <input type="checkbox" class = "names"
+				name="deviceNames[]" id ="10"value="iPhone 3">iPhone 3
+			</label>
+			 &nbsp;&nbsp;
+			
+		</form>
+	</div>
+	<div class="container">
+		<h2>Country</h2>
+		<form>
+			<label class="checkbox-inline"> <input type="checkbox" class = "names"
+				name="countryNames[]" id="1" value="US">US
+			</label> <label class="checkbox-inline"> <input type="checkbox"  class = "names"
+				name="countryNames[]" id="2" 
+				value="GB">GB
+			</label> <label class="checkbox-inline"> <input type="checkbox"  class = "names"
+				name="countryNames[]" id="3" 
+				value="JP">JP
+			</label> 
+			&nbsp;&nbsp;
+			
+		</form>
+	</div>
+	<button type="button" class="btn btn-primary" onclick="searchByDevice()">Search</button>
+</body>
+</html>

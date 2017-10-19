@@ -7,26 +7,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
-import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.index.query.MatchQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
 import org.springframework.stereotype.Service;
 
-import com.application.Elasticsearch.ElasticsearchConnect;
-import com.application.Elasticsearch.IndexElasticsearch;
 import com.application.dao.SearchDao;
-import com.application.vo.Devices;
 import com.application.vo.OutputVo;
-import com.google.gson.Gson;
 
 @Service
 public class SearchService implements SearchServiceImpl {
