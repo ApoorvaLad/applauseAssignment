@@ -18,12 +18,14 @@ import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
 import org.elasticsearch.search.aggregations.metrics.cardinality.InternalCardinality;
 
 import com.application.Elasticsearch.ElasticsearchConnect;
+import com.application.vo.OutputVo;
 
 public class SearchDao implements SearchDaoImpl {
 
-	public void searchDevices(ArrayList<String> devices, ArrayList<String> countries)
+	public List<OutputVo> searchDevices(ArrayList<String> devices, ArrayList<String> countries)
 			throws IOException, InterruptedException, ExecutionException {
 		List<Integer> testerIds = new ArrayList<Integer>();
+		List<OutputVo> outputVos = new ArrayList<OutputVo>();
 		TransportClient client = ElasticsearchConnect.getClient();
 		QueryBuilder builder = QueryBuilders.termsQuery("country", countries);
 		QueryBuilder builder2 = QueryBuilders.termsQuery("deviceName", devices);
@@ -42,6 +44,7 @@ public class SearchDao implements SearchDaoImpl {
 			testerIds.add(i);
 
 		}
+
 		for (Integer testerId : testerIds) {
 			for (String device : devices) {
 				QueryBuilder innerbuilder = QueryBuilders.termQuery("testerId", testerId);
@@ -53,11 +56,18 @@ public class SearchDao implements SearchDaoImpl {
 				response = client.prepareSearch("details").setSize(1000).setQuery(booleaninnerQueryBuilder)
 						.addAggregation(innerAggregation).execute().get();
 				InternalCardinality internalCardinality1 = response.getAggregations().get("bugCount");
+				OutputVo outputVo = new OutputVo();
+				outputVo.setDeviceName(device);
+				outputVo.setNoOfbugs(internalCardinality1.getValue());
+				outputVo.setTesterId(testerId);
+
 				System.out.println("For device " + device + " bug count by tester" + testerId + "is "
 						+ internalCardinality1.getValue());
+				outputVos.add(outputVo);
 			}
 
 		}
+		return outputVos;
 
 	}
 
@@ -69,6 +79,7 @@ public class SearchDao implements SearchDaoImpl {
 
 		ArrayList<String> devices = new ArrayList<String>();
 		devices.add("\"iPhone 4S\"");
+		devices.add("\"iPhone 4\"");
 
 		try {
 			dao.searchDevices(devices, countries);

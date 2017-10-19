@@ -2,12 +2,15 @@ package com.application.service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
@@ -22,6 +25,7 @@ import com.application.Elasticsearch.ElasticsearchConnect;
 import com.application.Elasticsearch.IndexElasticsearch;
 import com.application.dao.SearchDao;
 import com.application.vo.Devices;
+import com.application.vo.OutputVo;
 import com.google.gson.Gson;
 
 @Service
@@ -75,11 +79,25 @@ public class SearchService implements SearchServiceImpl {
 		return countries;
 	}
 
-	public void searchByDevice(HashMap<String, Object> requestbody) {
+	public List<OutputVo> searchByDevice(HashMap<Object, Object> requestbody) {
 		ArrayList<String> devices = (ArrayList<String>) requestbody.get("device");
 		ArrayList<String> countries = (ArrayList<String>) requestbody.get("country");
 		SearchDao dao = new SearchDao();
-		//dao.searchDevices(devices, countries);
+		List<OutputVo> list = new ArrayList<OutputVo>();
+		try {
+			list = dao.searchDevices(devices, countries);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
 
 	}
 

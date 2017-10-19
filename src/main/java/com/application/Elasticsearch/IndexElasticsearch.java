@@ -53,7 +53,8 @@ public class IndexElasticsearch {
 		final XContentBuilder mappingBuilder = jsonBuilder().startObject().startObject("detail").startObject("_all")
 				.field("enabled", "false").endObject().startObject("properties").startObject("deviceName")
 				.field("type", "keyword").endObject().startObject("country").field("type", "keyword").endObject()
-				.startObject("testerId").field("type", "integer").endObject().startObject("bugId").field("type", "integer").endObject().endObject().endObject().endObject();
+				.startObject("testerId").field("type", "integer").endObject().startObject("bugId")
+				.field("type", "integer").endObject().endObject().endObject().endObject();
 		// .startObject("properties");
 		System.out.println(mappingBuilder.string());
 		createIndexRequestBuilder.addMapping("detail", mappingBuilder);
@@ -102,8 +103,10 @@ public class IndexElasticsearch {
 				while (scanner.hasNextLine()) {
 					String line = scanner.nextLine();
 					String[] lineArray = line.split(",");
-					if (line.contains(bug.getDeviceId())) {
-
+					lineArray[0] = lineArray[0].replaceAll("^\"|\"$", "");
+					String deviceId = bug.getDeviceId().replaceAll("^\"|\"$", "");
+					if (lineArray[0].equals(deviceId)) {
+						System.out.println(lineArray[1]);
 						deviceDetails.add(lineArray[1]);
 
 					}
@@ -130,9 +133,10 @@ public class IndexElasticsearch {
 				while (scanner.hasNextLine()) {
 					String line = scanner.nextLine();
 					String[] lineArray = line.split(",");
+					lineArray[0] = lineArray[0].replaceAll("^\"|\"$", "");
+					if (lineArray[0].equals(Integer.toString(bug.getTesterId()))) {
 
-					if (line.contains(Integer.toString(bug.getTesterId()))) {
-
+						System.out.println(lineArray[3]);
 						testerDetails.add(lineArray[3]);
 
 					}
@@ -167,7 +171,7 @@ public class IndexElasticsearch {
 				bugs.add(new Bugs(Integer.parseInt(lineArray[0]), lineArray[1], Integer.parseInt(lineArray[2])));
 
 			}
-			System.out.println(bugs);
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -184,8 +188,8 @@ public class IndexElasticsearch {
 
 		ArrayList<Document> documents = new ArrayList<Document>();
 		for (int i = 0; i < bugs.size(); i++) {
-			documents.add(new Document(bugs.get(i).getTesterId(), testerDetails.get(i),
-					bugs.get(i).getDeviceId(), deviceDetails.get(i), bugs.get(i).getBugId()));
+			documents.add(new Document(bugs.get(i).getTesterId(), testerDetails.get(i), bugs.get(i).getDeviceId(),
+					deviceDetails.get(i), bugs.get(i).getBugId()));
 		}
 
 		try {

@@ -1,13 +1,13 @@
 package com.application.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
-import com.application.vo.Devices;
+import com.application.vo.OutputVo;
 
 public interface SearchServiceImpl {
 	Set<String> getAllDevices();
-	void searchByDevice(HashMap<String, Object> deviceNames);
+	List<OutputVo> searchByDevice(HashMap<Object, Object> deviceNames);
 	Set<String> getCountryNames();
 }
