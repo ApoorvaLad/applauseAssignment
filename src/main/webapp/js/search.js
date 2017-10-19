@@ -3,13 +3,19 @@ $(document).ready(function() {
 })
 
 function searchByDevice() {
-	var ids = [];
+	var deviceNames = [];
+	var countries = [];
 	$('.names:checked').each(function(i, e) {
-		ids.push($(this).val());
+		deviceNames.push($(this).val());
+	});
+	
+	$('.countries:checked').each(function(i, e) {
+		countries.push($(this).val());
 	});
 	
 	var data = {};
-	data['deviceName'] = ids;
+	data['deviceName'] = deviceNames;
+	data['countries'] = countries;
 	$.ajax({
 		url:"http://localhost:8080/assignment/search",
 		contentType: "application/json",
