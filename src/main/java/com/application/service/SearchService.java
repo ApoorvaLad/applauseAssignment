@@ -68,8 +68,8 @@ public class SearchService implements SearchServiceImpl {
 	}
 
 	public List<OutputVo> searchByDevice(HashMap<Object, Object> requestbody) {
-		ArrayList<String> devices = (ArrayList<String>) requestbody.get("device");
-		ArrayList<String> countries = (ArrayList<String>) requestbody.get("country");
+		ArrayList<String> devices = (ArrayList<String>) requestbody.get("deviceName");
+		ArrayList<String> countries = (ArrayList<String>) requestbody.get("countries");
 		SearchDao dao = new SearchDao();
 		List<OutputVo> list = new ArrayList<OutputVo>();
 		try {

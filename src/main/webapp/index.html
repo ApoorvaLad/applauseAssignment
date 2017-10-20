@@ -12,6 +12,7 @@
 </head>
 <body>
 	<script src="js/search.js"></script>
+
 	<!-- <div class="container">
 		
 	</div>
@@ -103,28 +104,46 @@
 		</div>-->
 		<div class="row">
 			<div class="col-xs-6">
-				<h3 class="text-center">Basic Example</h3>
+				<h3 class="text-center">Device</h3>
 				<div class="well" style="max-height: 300px; overflow: auto;">
-					<ul class="list-group checked-list-box">
-						<li class="list-group-item">Cras justo odio</li>
-						<li class="list-group-item" data-checked="true">Dapibus ac
-							facilisis in</li>
-						<li class="list-group-item">Morbi leo risus</li>
-						<li class="list-group-item">Porta ac consectetur ac</li>
-						<li class="list-group-item">Vestibulum at eros</li>
-						<li class="list-group-item">Cras justo odio</li>
-						<li class="list-group-item">Dapibus ac facilisis in</li>
-						<li class="list-group-item">Morbi leo risus</li>
-						<li class="list-group-item">Porta ac consectetur ac</li>
-						<li class="list-group-item">Vestibulum at eros</li>
+					<ul class="list-group checked-list-box" id="names">
+						<li class="list-group-item" value="iPhone4">iPhone 4</li>
+						<li class="list-group-item">iPhone 4S</li>
+						<li class="list-group-item">iPhone 5</li>
+						<li class="list-group-item">Galaxy S3</li>
+						<li class="list-group-item">Galaxy S4</li>
+						<li class="list-group-item">Nexus 4</li>
+						<li class="list-group-item">Droid Razor</li>
+						<li class="list-group-item">Droid DNA</li>
+						<li class="list-group-item">HTC One</li>
+						<li class="list-group-item">iPhone 3</li>
 					</ul>
 				</div>
 			</div>
+			<div class="col-xs-6">
+				<h3 class="text-center">Colorful Example</h3>
+				<div class="well" style="max-height: 300px; overflow: auto;">
+					<ul id="countries" class="list-group checked-list-box">
+						<li class="list-group-item">US</li>
+						<li class="list-group-item">GB</li>
+						<li class="list-group-item">JP</li>
+					</ul>
+					<br />
+
+				</div>
+
+			</div>
 		</div>
-		<br> <br> <br>
+
+		<pre id="display-json"></pre>
 		<div class="wrapper" style="text-align: center">
-			<button type="button" class="btn btn-primary"
-				style="position: absolute; top: 25%" onclick="searchByDevice()">Search</button>
+			<button type="button" class="btn btn-primary" id="get-checked-data">Search</button>
 		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+
+
 </body>
 </html>

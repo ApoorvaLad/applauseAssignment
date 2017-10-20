@@ -27,6 +27,12 @@ public class SearchDao implements SearchDaoImpl {
 		List<Integer> testerIds = new ArrayList<Integer>();
 		List<OutputVo> outputVos = new ArrayList<OutputVo>();
 		TransportClient client = ElasticsearchConnect.getClient();
+		for (String device : devices) {
+			device = "\"" + device + "\"";
+		}
+		for (String country : countries) {
+			country = "\"" + country + "\"";
+		}
 		QueryBuilder builder = QueryBuilders.termsQuery("country", countries);
 		QueryBuilder builder2 = QueryBuilders.termsQuery("deviceName", devices);
 		final BoolQueryBuilder booleanQueryBuilder = QueryBuilders.boolQuery();
